@@ -19,6 +19,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/actions/actionAuth";
+import { selectRole } from "../../../utils/selectRole";
 
 const ProfileSection = () => {
   const theme = useTheme();
@@ -161,7 +162,9 @@ const ProfileSection = () => {
                   >
                     <Typography variant='h6'>Vai Trò:</Typography>
                     {user?.roles ? (
-                      <Typography variant='subtitle2'>{user.roles}</Typography>
+                      <Typography variant='subtitle2'>
+                        {selectRole(user.roles)}
+                      </Typography>
                     ) : (
                       <Typography variant='subtitle2'>
                         Không Xác Định

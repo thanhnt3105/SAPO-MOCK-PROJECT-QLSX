@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -18,14 +17,13 @@ import java.util.Set;
 @Entity
 @Table(name = "employees")
 public class Employee extends BaseEntity {
-
-    @Column(name = "code", unique = true, nullable = false)
+    @Column(name = "code", unique = true, nullable = false, length = 20)
     private String code;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
-    @Column(name = "phone")
+    @Column(name = "phone", length = 25, unique = true)
     private String phone;
-    @Column(name = "address")
+    @Column(name = "address", length = 100)
     private String address;
     @Column(name = "working_status")
     private Boolean workingStatus = true;
@@ -35,19 +33,14 @@ public class Employee extends BaseEntity {
     private LocalDateTime createdDate;
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
-
-    @Size(max = 20)
-    @Column(name = "username")
-    private String username;
-
-    @Size(max = 120)
-    @Column(name = "password")
-    private String password; // after hashing
-
     // With this relationship @ManyToMany => when delete employee, all roles of that employee has been deleted before
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "employees_roles",
-            joinColumns = {@JoinColumn(name = "employee_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "employees_roles", joinColumns = {@JoinColumn(name = "employee_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
+    @Size(max = 50)
+    @Column(name = "username", length = 50)
+    private String username;
+    @Size(max = 120)
+    @Column(name = "password", length = 120)
+    private String password; // after hashing
 }

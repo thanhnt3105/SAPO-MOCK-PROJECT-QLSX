@@ -37,24 +37,14 @@ const columns = [
   },
   {
     id: "phone",
-    label: "Số điện thoại",
+    label: "Số Điện Thoại",
     align: "center",
   },
   {
     id: "address",
-    label: "Địa chỉ",
+    label: "Địa Chỉ",
     align: "center",
   },
-  {
-    id:"createdDate",
-    label:"Ngày tạo",
-    align:"center",
-  },
-  {
-    id:"updatedDate",
-    label:"Ngày sửa",
-    align:"center",
-  }
 ];
 
 function EnhancedTableHead(props) {
@@ -184,14 +174,14 @@ const CustomerList = () => {
 
   useEffect(() => {
     customerService
-    .listInPage(page, rowsPerPage)
-    .then(function (response) {
-      dispatch(startSetCustomer(response.data.listOfCategories));
-      setTotalCustomers(response.data.totalItems);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .listInPage(page, rowsPerPage)
+      .then(function (response) {
+        dispatch(startSetCustomer(response.data.listOfItems));
+        setTotalCustomers(response.data.totalItems);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, [dispatch, page, rowsPerPage]);
   const listCustomer = useSelector((state) => state.customer);
 
@@ -256,6 +246,7 @@ const CustomerList = () => {
                   return (
                     <CustomerItem
                       key={index}
+                      index={page * rowsPerPage + (index + 1)}
                       item={row}
                       selected={isItemSelected}
                       callbackClickCheckbox={handleClickCheckbox}

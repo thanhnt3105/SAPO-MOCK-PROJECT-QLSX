@@ -72,7 +72,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new CustomErrorResponse(HttpStatus.NOT_FOUND, ex));
     }
 
-
     /**
      * Handles EntityNotFoundException. Created to encapsulate errors with more detail than javax.persistence.EntityNotFoundException.
      *
@@ -81,8 +80,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    protected ResponseEntity<Object> handleEntityNotFound(
-            EntityNotFoundException ex) {
+    protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.NOT_FOUND, ex);
         errorResponse.setMessage(ex.getMessage());
         errorResponse.setDebugMessage(StringUtils.joinWith("\n", ex.getStackTrace()));
@@ -92,9 +90,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-
     /**
-     *
      * @param ex
      * @return
      */
@@ -111,15 +107,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 return super.toString();
             }
         });
-
         return buildResponseEntity(errorResponse);
     }
-
-
-
-
-
-
 
     /**
      * Handle MissingServletRequestParameterException. Triggered when a 'required' request parameter is missing.
@@ -131,13 +120,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the CustomErrorResponse object
      */
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(
-            MissingServletRequestParameterException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
         return buildResponseEntity(new CustomErrorResponse(HttpStatus.BAD_REQUEST, error, ex));
     }
-
 
     /**
      * Handle HttpMediaTypeNotSupportedException. This one triggers when JSON is invalid as well.
@@ -149,20 +135,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the CustomErrorResponse object
      */
     @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
-            HttpMediaTypeNotSupportedException ex,
-            HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         StringBuilder builder = new StringBuilder();
         builder.append(ex.getContentType());
         builder.append(" media type is not supported. Supported media types are ");
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
         return buildResponseEntity(new CustomErrorResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));
     }
-
-
-
 
     /**
      * Handles javax.validation.ConstraintViolationException. Thrown when @Validated fails.
@@ -173,14 +152,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<Object> handleConstraintViolation(
-            javax.validation.ConstraintViolationException ex) {
+    protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex);
         errorResponse.setMessage("Validation error");
         errorResponse.addValidationErrors(ex.getConstraintViolations());
         return buildResponseEntity(errorResponse);
     }
-
 
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
@@ -224,14 +201,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(
-            NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex);
         errorResponse.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         errorResponse.setDebugMessage(ex.getMessage());
         return buildResponseEntity(errorResponse);
     }
-
 
     /**
      * Handle DataIntegrityViolationException, inspects the cause for different DB causes.
@@ -240,8 +215,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the CustomErrorResponse object
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
-                                                                  WebRequest request) {
+    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
         // exception in constraint in database: e.g unique constraint
         if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new CustomErrorResponse(HttpStatus.CONFLICT, "Database error", ex.getCause()));
@@ -257,14 +231,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
-                                                                      WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(HttpStatus.BAD_REQUEST, ex);
         errorResponse.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         errorResponse.setDebugMessage(ex.getMessage());
         return buildResponseEntity(errorResponse);
     }
-
 
     /**
      * BadCredentialsException: Thrown if an authentication request is rejected because the credentials are invalid.
@@ -282,7 +254,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-
     // unauthorized request
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -293,8 +264,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-
-
     @ExceptionHandler(CustomValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleCustomValidation(CustomValidationException ex) {
@@ -304,11 +273,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-
-
-
     /**
      * Handle all uncaught exception
+     *
      * @param ex
      * @return
      */
@@ -320,10 +287,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         errorResponse.setDebugMessage(StringUtils.joinWith("\n", ex.getStackTrace()));
         return buildResponseEntity(errorResponse);
     }
-
-
-
-
 
     /**
      * @param customErrorResponse

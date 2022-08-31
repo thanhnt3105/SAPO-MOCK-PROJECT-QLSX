@@ -1,9 +1,11 @@
-import { IconKey, IconUsers,IconUser } from "@tabler/icons";
+import { IconKey, IconUsers, IconUser,IconBrandProducthunt,IconAssembly } from "@tabler/icons";
 
 const icons = {
   IconKey,
   IconUsers,
-  IconUser
+  IconUser,
+  IconBrandProducthunt,
+  IconAssembly,
 };
 
 const pages = {
@@ -47,7 +49,21 @@ const pages = {
       type: "item",
       icon: icons.IconUser,
       url: "/manage/customers",
-    }
+    },
+    {
+      id: "products",
+      title: "Quản Lý Linh Kiện",
+      type: "item",
+      icon: icons.IconBrandProducthunt,
+      url: "/manage/products",
+    },
+    {
+      id: "services",
+      title: "Quản Lý Dịch Vụ",
+      type: "item",
+      icon: icons.IconAssembly,
+      url: "/manage/services",
+    },
   ],
 };
 

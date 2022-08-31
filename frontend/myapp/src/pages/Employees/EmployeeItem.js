@@ -2,9 +2,10 @@ import { useTheme } from "@emotion/react";
 import { Box, Checkbox, TableCell, TableRow } from "@mui/material";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import { selectRole } from "../../utils/selectRole";
 
 const EmployeeItem = (props) => {
-  const { item, selected, callbackClickCheckbox } = props;
+  const { index, item, selected, callbackClickCheckbox } = props;
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -15,7 +16,6 @@ const EmployeeItem = (props) => {
     <TableRow
       hover
       sx={{ cursor: "pointer" }}
-      onClick={handleNavigateToDetailPage}
       role='checkbox'
       checked={selected}
       tabIndex={-1}
@@ -31,40 +31,53 @@ const EmployeeItem = (props) => {
           }}
         />
       </TableCell>
-      <TableCell align='center'>{item.id}</TableCell>
-      <TableCell align='center'>{item.code}</TableCell>
-      <TableCell align='center'>{item.name}</TableCell>
-      <TableCell align='center'>{item.phone}</TableCell>
-      <TableCell align='center'>{item.roles[0].name}</TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {index}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.code}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.name}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.phone}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {selectRole(item.roles)}
+      </TableCell>
       {item.workingStatus ? (
-        <TableCell align='center'>
+        <TableCell align='center' onClick={handleNavigateToDetailPage}>
           <Box sx={{ bgcolor: theme.palette.success.light, borderRadius: 5 }}>
             Đi làm
           </Box>
         </TableCell>
       ) : (
-        <TableCell align='center'>
+        <TableCell align='center' onClick={handleNavigateToDetailPage}>
           <Box sx={{ bgcolor: theme.palette.error.light, borderRadius: 5 }}>
             Nghỉ
           </Box>
         </TableCell>
       )}
-      {item.roles[0].id === 4 ? (
+      {selectRole(item.roles) === "Thợ Sửa Chữa" ? (
         item.available ? (
-          <TableCell align='center'>
+          <TableCell align='center' onClick={handleNavigateToDetailPage}>
             <Box sx={{ bgcolor: theme.palette.success.light, borderRadius: 5 }}>
               Rảnh
             </Box>
           </TableCell>
         ) : (
-          <TableCell align='center'>
+          <TableCell align='center' onClick={handleNavigateToDetailPage}>
             <Box sx={{ bgcolor: theme.palette.error.light, borderRadius: 5 }}>
               Đang sửa chữa
             </Box>
           </TableCell>
         )
       ) : (
-        <TableCell align='center'></TableCell>
+        <TableCell
+          align='center'
+          onClick={handleNavigateToDetailPage}
+        ></TableCell>
       )}
     </TableRow>
   );

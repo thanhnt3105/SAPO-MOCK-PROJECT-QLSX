@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class ValidationError extends SubError {
-
     public ValidationError(String object, String field, String message) {
         super(object, field, message);
     }

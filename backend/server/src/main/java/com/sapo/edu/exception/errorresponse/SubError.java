@@ -11,5 +11,4 @@ public abstract class SubError {
     protected String object; // object name
     protected String field; // field of object makes invalid
     protected String message; // detail message error
-
 }

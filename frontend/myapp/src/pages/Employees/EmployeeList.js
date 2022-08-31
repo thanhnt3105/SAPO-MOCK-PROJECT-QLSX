@@ -191,7 +191,7 @@ const EmployeeList = () => {
     employeeService
       .listInPage(page, rowsPerPage)
       .then(function (response) {
-        dispatch(startSetEmployee(response.data.listOfCategories));
+        dispatch(startSetEmployee(response.data.listOfItems));
         setTotalEmployees(response.data.totalItems);
       })
       .catch(function (error) {
@@ -261,6 +261,7 @@ const EmployeeList = () => {
                   return (
                     <EmployeeItem
                       key={index}
+                      index={page * rowsPerPage + (index + 1)}
                       item={row}
                       selected={isItemSelected}
                       callbackClickCheckbox={handleClickCheckbox}

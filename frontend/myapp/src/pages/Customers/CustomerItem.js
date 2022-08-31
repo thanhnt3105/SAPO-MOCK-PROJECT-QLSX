@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CustomerItem = (props) => {
-  const { item, selected, callbackClickCheckbox } = props;
+  const { index, item, selected, callbackClickCheckbox } = props;
   const navigate = useNavigate();
 
   const handleNavigateToDetailPage = (event) => {
@@ -13,7 +13,6 @@ const CustomerItem = (props) => {
     <TableRow
       hover
       sx={{ cursor: "pointer" }}
-      onClick={handleNavigateToDetailPage}
       role='checkbox'
       checked={selected}
       tabIndex={-1}
@@ -29,12 +28,18 @@ const CustomerItem = (props) => {
           }}
         />
       </TableCell>
-      <TableCell align='center'>{item.id}</TableCell>
-      <TableCell align='center'>{item.name}</TableCell>
-      <TableCell align='center'>{item.phone}</TableCell>
-      <TableCell align='center'>{item.address}</TableCell>
-      <TableCell align='center'>{item.createdDate}</TableCell>
-      <TableCell align='center'>{item.updatedDate}</TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {index}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.name}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.phone}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.address}
+      </TableCell>
     </TableRow>
   );
 };

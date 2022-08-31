@@ -19,4 +19,14 @@ export const employeeService = {
       config
     );
   },
+  removeEmployee: function (id) {
+    return axios.delete(`${menuAPI.employee}/${id}`, config);
+  },
+  updateEmployee: function (id, values) {
+    return axios.put(
+      `${menuAPI.employee}/${id}`,
+      JSON.stringify(values),
+      config
+    );
+  },
 };

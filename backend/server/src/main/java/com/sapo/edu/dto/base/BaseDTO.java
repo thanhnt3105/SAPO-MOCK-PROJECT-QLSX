@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,8 +13,4 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseDTO {
     protected Long id;
-//    protected String createdBy;
-//    protected Timestamp createdDate;
-//    protected String modifiedBy;
-//    protected Timestamp modifiedDate;
 }
