@@ -3,7 +3,7 @@ package com.sapo.edu.controller;
 import com.sapo.edu.controller.base.BaseController;
 import com.sapo.edu.mapper.dto.BrandDTOMapper;
 import com.sapo.edu.mapper.request.BrandRequestMapper;
-import com.sapo.edu.payload.request.BrandRequest;
+import com.sapo.edu.payload.crudrequest.BrandRequest;
 import com.sapo.edu.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/brands")
 public class BrandController implements BaseController<BrandRequest> {
+
     @Autowired
     private BrandService brandService;
     @Autowired
@@ -31,21 +32,27 @@ public class BrandController implements BaseController<BrandRequest> {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
     public ResponseEntity<?> one(Long id) {
-        return ResponseEntity.ok().body(dtoMapper.toBrandDTO(brandService.findById(id)));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toBrandDTO(brandService.findById(id)));
     }
 
     @Override
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
     public ResponseEntity<?> create(BrandRequest entity) {
-        return ResponseEntity.ok().body(dtoMapper.toBrandDTO(brandService.save(requestMapper.toBrand(entity))));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toBrandDTO(brandService.save(requestMapper.toBrand(entity))));
     }
 
     @Override
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MODERATOR')")
     public ResponseEntity<?> update(BrandRequest entity, Long id) {
-        return ResponseEntity.ok().body(dtoMapper.toBrandDTO(brandService.updateById(id, requestMapper.toBrand(entity))));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toBrandDTO(brandService.updateById(id, requestMapper.toBrand(entity))));
     }
 
     @Override
@@ -55,6 +62,7 @@ public class BrandController implements BaseController<BrandRequest> {
         brandService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 
     @Override
     @GetMapping("/paging")

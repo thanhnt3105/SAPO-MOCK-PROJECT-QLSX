@@ -10,7 +10,6 @@ import java.util.Optional;
 @Repository
 public interface MotorbikeRepository extends BaseRepository<Motorbike, Long> {
     boolean existsByLicensePlates(String licensePlates);
-
     Optional<Motorbike> findByLicensePlates(String licensePlates);
 
     List<Motorbike> findMotorbikesByCustomersId(Long customerId);

@@ -1,7 +1,7 @@
 package com.sapo.edu.mapper.request;
 
 import com.sapo.edu.entity.Customer;
-import com.sapo.edu.payload.request.CustomerRequest;
+import com.sapo.edu.payload.crudrequest.CustomerRequest;
 import com.sapo.edu.repository.CustomerRepository;
 import com.sapo.edu.repository.MotorbikeRepository;
 import com.sapo.edu.service.CustomerService;
@@ -20,11 +20,12 @@ public class CustomerRequestMapper {
     @Autowired
     private CustomerService customerService;
 
-    public Customer toCustomer(CustomerRequest customerRequest) {
+    public Customer toCustomer(CustomerRequest customerRequest){
         Customer customer = new Customer();
         customer.setName(customerRequest.getName());
         customer.setAddress(customerRequest.getAddress());
         customer.setPhone(customerRequest.getPhone());
+
         return customer;
     }
 }

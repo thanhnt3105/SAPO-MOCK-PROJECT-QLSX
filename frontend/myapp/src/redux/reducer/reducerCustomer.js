@@ -8,11 +8,8 @@ const reducerCustomer = (state = [], action) => {
       return state.filter((item) => item.id !== action.payload);
     case "UPDATE-CUSTOMER":
       return state.map((item) => {
-        if (item.id === action.payload) {
-          return {
-            ...item,
-            ...action.payload,
-          };
+        if (item.id === action.payload.id) {
+          return action.payload.data;
         } else {
           return item;
         }

@@ -1,46 +1,75 @@
-import { Box, Drawer, useMediaQuery } from "@mui/material";
+import { Box, Divider, Drawer, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { BrowserView, MobileView } from "react-device-detect";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import { BrowserView } from "react-device-detect";
+import { useSelector } from "react-redux";
 import { drawerWidth } from "../../../constants/const";
-import MenuList from "../Sidebar/MenuList";
 import LogoSection from "../LogoSection/index";
+import ToggleSidebar from "../ToggleSidebar";
+import NavList from "./MenuList/NavList";
+import ProfileSection from "./Profile";
 
-const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  width: `calc(${theme.spacing(7)} + 4px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 4px)`,
+  },
+  overflowX: "hidden",
+});
+
+const Sidebar = ({ drawerOpen, drawerToggle }) => {
+  const user = useSelector((state) => state.auth.currentUser);
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
   const drawer = (
     <>
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <Box sx={{ display: "flex", p: 3, mx: "auto" }}>
-          <LogoSection />
-        </Box>
-      </Box>
-      <BrowserView>
-        <PerfectScrollbar
-          component='div'
-          style={{
-            height: !matchUpMd ? "calc(100vh - 55px)" : "calc(100vh - 88px)",
-            paddingLeft: "15px",
-            paddingRight: "15px",
+      {drawerOpen ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 2,
           }}
         >
-          <MenuList />
-        </PerfectScrollbar>
-      </BrowserView>
-      <MobileView>
-        <Box sx={{ px: 2 }}>
-          <MenuList />
+          <LogoSection />
         </Box>
-      </MobileView>
+      ) : (
+        <Box sx={{ mt: 2, height: "50px" }}></Box>
+      )}
+      <Box sx={{ mt: 2 }}>
+        <Divider />
+      </Box>
+      <Box>
+        <ProfileSection user={user} drawerOpen={drawerOpen} />
+      </Box>
+      <BrowserView>
+        <NavList user={user} />
+      </BrowserView>
+      <Box sx={{ marginTop: "auto" }}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <ToggleSidebar
+            drawerOpen={drawerOpen}
+            handleLeftDrawerToggle={drawerToggle}
+          />
+        </Box>
+      </Box>
     </>
   );
-
-  const container =
-    window !== undefined ? () => window.document.body : undefined;
 
   return (
     <>
@@ -50,20 +79,24 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
         aria-label='mailbox folders'
       >
         <Drawer
-          container={container}
-          variant={matchUpMd ? "persistent" : "temporary"}
+          variant='permanent'
           anchor='left'
           open={drawerOpen}
           onClose={drawerToggle}
           sx={{
             "& .MuiDrawer-paper": {
               width: drawerWidth,
+              flexShrink: 0,
+              whiteSpace: "nowrap",
               background: theme.palette.background.default,
               color: theme.palette.text.primary,
-              borderRight: "none",
-              [theme.breakpoints.up("md")]: {
-                top: "88px",
-              },
+              boxSizing: "border-box",
+              ...(drawerOpen && {
+                ...openedMixin(theme),
+              }),
+              ...(!drawerOpen && {
+                ...closedMixin(theme),
+              }),
             },
           }}
           ModalProps={{ keepMounted: true }}
@@ -79,7 +112,6 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
 Sidebar.propTypes = {
   drawerOpen: PropTypes.bool,
   drawerToggle: PropTypes.func,
-  window: PropTypes.object,
 };
 
 export default Sidebar;

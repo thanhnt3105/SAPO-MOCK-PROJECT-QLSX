@@ -1,6 +1,7 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import currencyFormat from "../../utils/currencyFormat";
 
 const ServiceItem = (props) => {
   const { index, item, selected, callbackClickCheckbox } = props;
@@ -28,10 +29,18 @@ const ServiceItem = (props) => {
           }}
         />
       </TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{index}</TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{item.code}</TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{item.name}</TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{item.price}</TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {index}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.code}
+      </TableCell>
+      <TableCell align='left' onClick={handleNavigateToDetailPage}>
+        {item.name}
+      </TableCell>
+      <TableCell align='right' onClick={handleNavigateToDetailPage}>
+        {currencyFormat(item.price)}
+      </TableCell>
     </TableRow>
   );
 };

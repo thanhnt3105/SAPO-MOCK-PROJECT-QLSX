@@ -1,16 +1,14 @@
-import { useTheme } from "@emotion/react";
-import { Box, Checkbox, TableCell, TableRow } from "@mui/material";
+import { Checkbox, Chip, TableCell, TableRow } from "@mui/material";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { selectRole } from "../../utils/selectRole";
+import { selectAllRoles, selectRole } from "../../utils/selectRole";
 
 const EmployeeItem = (props) => {
   const { index, item, selected, callbackClickCheckbox } = props;
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const handleNavigateToDetailPage = (event) => {
-    navigate(`/manage/employees/${item.code}`);
+    navigate(`/manage/employees/${item.id}`);
   };
   return (
     <TableRow
@@ -44,33 +42,29 @@ const EmployeeItem = (props) => {
         {item.phone}
       </TableCell>
       <TableCell align='center' onClick={handleNavigateToDetailPage}>
-        {selectRole(item.roles)}
+        {selectAllRoles(item.roles)}
       </TableCell>
       {item.workingStatus ? (
         <TableCell align='center' onClick={handleNavigateToDetailPage}>
-          <Box sx={{ bgcolor: theme.palette.success.light, borderRadius: 5 }}>
-            Đi làm
-          </Box>
+          <Chip label='Đi làm' color='success' style={{ width: "80px" }} />
         </TableCell>
       ) : (
         <TableCell align='center' onClick={handleNavigateToDetailPage}>
-          <Box sx={{ bgcolor: theme.palette.error.light, borderRadius: 5 }}>
-            Nghỉ
-          </Box>
+          <Chip label='Nghỉ' color='error' style={{ width: "80px" }} />
         </TableCell>
       )}
       {selectRole(item.roles) === "Thợ Sửa Chữa" ? (
         item.available ? (
           <TableCell align='center' onClick={handleNavigateToDetailPage}>
-            <Box sx={{ bgcolor: theme.palette.success.light, borderRadius: 5 }}>
-              Rảnh
-            </Box>
+            <Chip label='Rảnh' color='success' style={{ width: "100px" }} />
           </TableCell>
         ) : (
           <TableCell align='center' onClick={handleNavigateToDetailPage}>
-            <Box sx={{ bgcolor: theme.palette.error.light, borderRadius: 5 }}>
-              Đang sửa chữa
-            </Box>
+            <Chip
+              label='Đang sửa xe'
+              color='error'
+              style={{ width: "100px" }}
+            />
           </TableCell>
         )
       ) : (

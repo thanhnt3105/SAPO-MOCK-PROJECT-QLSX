@@ -2,7 +2,7 @@ package com.sapo.edu.mapper.request;
 
 import com.sapo.edu.entity.Brand;
 import com.sapo.edu.entity.Model;
-import com.sapo.edu.payload.request.ModelRequest;
+import com.sapo.edu.payload.crudrequest.ModelRequest;
 import com.sapo.edu.repository.BrandRepository;
 import com.sapo.edu.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,10 @@ public class ModelRequestMapper {
             brand = new Brand();
             brand.setBrandName(modelRequest.getBrandName());
             brandService.save(brand);
-        } else
+        }
+        else
             brand = brandRepository.findByBrandName(modelRequest.getBrandName()).get();
+
         newModel.setModelName(modelRequest.getModelName());
         newModel.setBrand(brand);
         return newModel;

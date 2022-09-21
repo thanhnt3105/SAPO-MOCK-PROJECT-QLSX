@@ -13,10 +13,12 @@ public class ProductModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EmbeddedId
     private ProductModelId id;
+
     @MapsId("modelId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "model_id", nullable = false)
     private Model model;
+
     @MapsId("productId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
@@ -45,4 +47,5 @@ public class ProductModel {
     public void setProduct(Product product) {
         this.product = product;
     }
+
 }

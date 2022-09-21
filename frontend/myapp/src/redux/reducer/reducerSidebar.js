@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionSidebar";
 export const initialState = {
   isOpen: [], // for active default menu
   opened: true,
+  openedFilter: false,
 };
 
 const reducerSidebar = (state = initialState, action) => {
@@ -18,6 +19,11 @@ const reducerSidebar = (state = initialState, action) => {
       return {
         ...state,
         opened: action.opened,
+      };
+    case actionTypes.SET_FILTER_DRAWER:
+      return {
+        ...state,
+        openedFilter: action.openedFilter,
       };
     default:
       return state;

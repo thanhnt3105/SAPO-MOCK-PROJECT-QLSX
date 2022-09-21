@@ -13,10 +13,12 @@ public class EmployeeRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EmbeddedId
     private EmployeeRoleId id;
+
     @MapsId("employeeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
     @MapsId("roleId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
@@ -45,4 +47,5 @@ public class EmployeeRole {
     public void setRole(Role role) {
         this.role = role;
     }
+
 }

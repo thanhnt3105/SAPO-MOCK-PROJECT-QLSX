@@ -17,8 +17,9 @@ public class CategoryDTOMapper {
     public CategoryDTO toCategoryDTO(Category category) {
         return mapper.map(category, CategoryDTO.class);
     }
-
     public List<CategoryDTO> toCategoryDTOs(List<Category> categories) {
-        return categories.stream().map(this::toCategoryDTO).collect(Collectors.toList());
+        return categories.stream()
+                .map(this::toCategoryDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,7 @@ public class MotorbikeCustomerId implements Serializable {
     private static final long serialVersionUID = 200426154949813324L;
     @Column(name = "motorbike_id", nullable = false)
     private Long motorbikeId;
+
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
 
@@ -34,16 +35,16 @@ public class MotorbikeCustomerId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         MotorbikeCustomerId entity = (MotorbikeCustomerId) o;
-        return Objects.equals(this.customerId, entity.customerId) && Objects.equals(this.motorbikeId, entity.motorbikeId);
+        return Objects.equals(this.customerId, entity.customerId) &&
+                Objects.equals(this.motorbikeId, entity.motorbikeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(customerId, motorbikeId);
     }
+
 }

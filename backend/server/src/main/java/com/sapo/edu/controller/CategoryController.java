@@ -3,7 +3,7 @@ package com.sapo.edu.controller;
 import com.sapo.edu.controller.base.BaseController;
 import com.sapo.edu.mapper.dto.CategoryDTOMapper;
 import com.sapo.edu.mapper.request.CategoryRequestMapper;
-import com.sapo.edu.payload.request.CategoryRequest;
+import com.sapo.edu.payload.crudrequest.CategoryRequest;
 import com.sapo.edu.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,21 +31,27 @@ public class CategoryController implements BaseController<CategoryRequest> {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> one(Long id) {
-        return ResponseEntity.ok().body(dtoMapper.toCategoryDTO(categoryService.findById(id)));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toCategoryDTO(categoryService.findById(id)));
     }
 
     @Override
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> create(CategoryRequest entity) {
-        return ResponseEntity.ok().body(dtoMapper.toCategoryDTO(categoryService.save(requestMapper.toCategory(entity))));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toCategoryDTO(categoryService.save(requestMapper.toCategory(entity))));
     }
 
     @Override
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(CategoryRequest entity, Long id) {
-        return ResponseEntity.ok().body(dtoMapper.toCategoryDTO(categoryService.updateById(id, requestMapper.toCategory(entity))));
+        return ResponseEntity
+                .ok()
+                .body(dtoMapper.toCategoryDTO(categoryService.updateById(id, requestMapper.toCategory(entity))));
     }
 
     @Override
@@ -55,6 +61,7 @@ public class CategoryController implements BaseController<CategoryRequest> {
         categoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 
     @Override
     @GetMapping("/paging")

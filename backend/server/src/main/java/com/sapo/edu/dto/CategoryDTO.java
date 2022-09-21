@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.ALWAYS)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDTO extends BaseDTO {
     private String code;
     private String name;

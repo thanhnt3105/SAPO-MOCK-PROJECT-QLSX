@@ -7,53 +7,85 @@ import com.sapo.edu.entity.connectentity.TicketService;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tickets", indexes = {@Index(name = "code", columnList = "code", unique = true), @Index(name = "repairing_employee_id", columnList = "repairing_employee_id"), @Index(name = "customer_id", columnList = "customer_id"), @Index(name = "motorbike_id", columnList = "motorbike_id")})
+@Table(name = "tickets")
 public class Ticket extends BaseEntity {
+
     @Column(name = "code", nullable = false, length = 20)
     private String code;
+
     @Column(name = "description", length = 1024)
     private String description;
+
     @Column(name = "note", length = 1024)
     private String note;
+
     @Column(name = "status")
     private Byte status; // -1 / 0 / 1
-    @Column(name = "discount", precision = 5, scale = 2)
+
+    @Column(name = "discount")
     private BigDecimal discount;
-    @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
+
+    @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "motorbike_id", nullable = false)
     private Motorbike motorbike;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "repairing_employee_id", nullable = false)
     private Employee repairingEmployee;
+
+    @Column(name = "cashier_name")
+    private String cashierName;
+
     @Column(name = "payment_method", length = 100)
     private String paymentMethod;
+
     @Column(name = "appointment_date")
     private LocalDateTime appointmentDate;
     @Column(name = "created_date")
     private LocalDateTime createdDate;
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
-    @OneToMany(mappedBy = "ticket")
-    private Set<TicketService> ticketsServices = new LinkedHashSet<>();
-    @OneToMany(mappedBy = "ticket")
-    private Set<TicketProduct> ticketsProducts = new LinkedHashSet<>();
 
+    @Column(name = "active")
+    private Boolean active;
+
+
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<TicketService> ticketsServices = new HashSet<>();
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<TicketProduct> ticketsProducts = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<TicketUpdateHistory> histories;
+
+
+    // Custom here
     public void addProduct(TicketProduct ticketProduct) {
         this.ticketsProducts.add(ticketProduct);
     }
-
     public void addService(TicketService ticketService) {
         this.ticketsServices.add(ticketService);
     }
+    public void removeProduct(TicketProduct ticketProduct) {
+        this.ticketsProducts.remove(ticketProduct);
+    }
+    public void removeService(TicketService ticketService) {
+        this.ticketsServices.remove(ticketService);
+    }
+
 
     public LocalDateTime getAppointmentDate() {
         return appointmentDate;
@@ -173,5 +205,29 @@ public class Ticket extends BaseEntity {
 
     public void setTicketsProducts(Set<TicketProduct> ticketsProducts) {
         this.ticketsProducts = ticketsProducts;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Set<TicketUpdateHistory> getHistories() {
+        return histories;
+    }
+
+    public void setHistories(Set<TicketUpdateHistory> histories) {
+        this.histories = histories;
+    }
+
+    public String getCashierName() {
+        return cashierName;
+    }
+
+    public void setCashierName(String cashierName) {
+        this.cashierName = cashierName;
     }
 }

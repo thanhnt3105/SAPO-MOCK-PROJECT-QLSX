@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-// entiry -> DTO
+//Convert entiry -> DTO
 @Component
 public class CustomerDTOMapper {
     @Autowired
@@ -20,6 +19,9 @@ public class CustomerDTOMapper {
     }
 
     public List<CustomerDTO> toCustomerDTOs(List<Customer> customers) {
-        return customers.stream().map(this::toCustomerDTO).collect(Collectors.toList());
+        return customers
+                .stream()
+                .map(this::toCustomerDTO)
+                .collect(Collectors.toList());
     }
 }

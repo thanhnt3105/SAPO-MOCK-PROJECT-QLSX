@@ -1,15 +1,20 @@
+import { Box, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
-import { Divider, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
-import LoginValid from "../validation/LoginValid";
 import Logo from "../../layout/MainLayout/LogoSection/Logo";
+import LoginValid from "../validation/LoginValid";
 
 const Login = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage:
+          "url(https://www.sapo.vn/Themes/Portal/Default/StylesV2/images/bg-register.jpg)",
+      }}
+    >
       <Grid
         container
         direction='column'
@@ -49,7 +54,7 @@ const Login = () => {
                         spacing={1}
                       >
                         <Typography
-                          color={theme.palette.secondary.main}
+                          color={theme.palette.primary.main}
                           gutterBottom
                           variant={matchDownSM ? "h3" : "h2"}
                         >
@@ -67,10 +72,18 @@ const Login = () => {
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                  <LoginValid />
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Box sx={{ width: "35%" }}>
+                      <LoginValid />
+                    </Box>
+                  </Box>
                 </Grid>
-                <Grid item xs={12}>
-                  <Divider />
+                {/* <Grid item xs={12}>
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Box sx={{ width: "35%" }}>
+                      <Divider />
+                    </Box>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid
@@ -89,7 +102,7 @@ const Login = () => {
                       Tạo Tài Khoản
                     </Typography>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
           </Grid>

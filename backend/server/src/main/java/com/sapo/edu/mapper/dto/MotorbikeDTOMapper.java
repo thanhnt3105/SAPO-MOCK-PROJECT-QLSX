@@ -19,6 +19,8 @@ public class MotorbikeDTOMapper {
     }
 
     public List<MotorbikeDTO> toMotorbikeDTOs(List<Motorbike> motorbikes) {
-        return motorbikes.stream().map(this::toMotorbikeDTO).collect(Collectors.toList());
+        return motorbikes.stream()
+                .map(this::toMotorbikeDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 public class TicketProductRequest {
     @NotNull
     private Long productId;
+
     @NotNull
     @Size(min = 1)
     private Integer quantity;

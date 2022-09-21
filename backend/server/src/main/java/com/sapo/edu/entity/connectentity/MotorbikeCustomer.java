@@ -13,10 +13,12 @@ public class MotorbikeCustomer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EmbeddedId
     private MotorbikeCustomerId id;
+
     @MapsId("motorbikeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "motorbike_id", nullable = false)
     private Motorbike motorbike;
+
     @MapsId("customerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
@@ -45,4 +47,5 @@ public class MotorbikeCustomer {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
 }

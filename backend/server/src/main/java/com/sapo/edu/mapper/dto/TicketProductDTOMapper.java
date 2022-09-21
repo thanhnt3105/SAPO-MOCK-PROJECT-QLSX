@@ -1,5 +1,6 @@
 package com.sapo.edu.mapper.dto;
 
+import com.sapo.edu.dto.ProductDTO;
 import com.sapo.edu.dto.connectDTO.TicketProductDTO;
 import com.sapo.edu.entity.Product;
 import com.sapo.edu.entity.connectentity.TicketProduct;
@@ -21,17 +22,22 @@ public class TicketProductDTOMapper {
     private ProductDTOMapper productDTOMapper;
 
     public TicketProductDTO toTicketProductDTO(TicketProduct ticketProduct) {
-        DecimalFormat df = new DecimalFormat("#,###.00");
-        TypeMap<TicketProduct, TicketProductDTO> propertyMapper = this.mapper.getTypeMap(TicketProduct.class, TicketProductDTO.class) == null ? this.mapper.createTypeMap(TicketProduct.class, TicketProductDTO.class) : this.mapper.getTypeMap(TicketProduct.class, TicketProductDTO.class);
-        propertyMapper.addMapping(TicketProduct::getPrice, TicketProductDTO::setStockPrice).addMappings(mapper -> {
-            mapper.using(context -> productDTOMapper.toProductDTO((Product) context.getSource())).map(TicketProduct::getProduct, TicketProductDTO::setProduct);
-            mapper.using(context -> df.format(((BigDecimal) context.getSource()))) // using converter
-                    .map(TicketProduct::getPrice, TicketProductDTO::setStockPrice);
-        });
+        TypeMap<TicketProduct, TicketProductDTO> propertyMapper =
+                this.mapper.getTypeMap(TicketProduct.class, TicketProductDTO.class) == null ?
+                        this.mapper.createTypeMap(TicketProduct.class, TicketProductDTO.class) :
+                        this.mapper.getTypeMap(TicketProduct.class, TicketProductDTO.class);
+        propertyMapper.addMapping(TicketProduct::getPrice, TicketProductDTO::setStockPrice)
+                .addMappings(mapper -> {
+                    mapper.using(context -> productDTOMapper.toProductDTO((Product) context.getSource()))
+                            .map(TicketProduct::getProduct, TicketProductDTO::setProduct);
+                    mapper.map(TicketProduct::getPrice, TicketProductDTO::setStockPrice);
+                });
         return this.mapper.map(ticketProduct, TicketProductDTO.class);
     }
 
     public Set<TicketProductDTO> toTicketProductDTOs(Set<TicketProduct> ticketProducts) {
-        return ticketProducts.stream().map(this::toTicketProductDTO).collect(Collectors.toSet());
+        return ticketProducts.stream()
+                .map(this::toTicketProductDTO)
+                .collect(Collectors.toSet());
     }
 }

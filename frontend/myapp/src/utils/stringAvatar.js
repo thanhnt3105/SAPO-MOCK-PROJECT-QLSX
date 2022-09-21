@@ -19,18 +19,20 @@ function stringToColor(string) {
 }
 
 export function stringAvatar(name) {
-  if (name.includes(" ")) {
+  if (name) {
+    if (name.includes(" ")) {
+      return {
+        sx: {
+          bgcolor: stringToColor(name),
+        },
+        children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+      };
+    }
     return {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+      children: `${name[0]}`,
     };
   }
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name[0]}`,
-  };
 }

@@ -2,7 +2,7 @@ package com.sapo.edu.mapper.request;
 
 import com.sapo.edu.common.RandomCodeGenerator;
 import com.sapo.edu.entity.Category;
-import com.sapo.edu.payload.request.CategoryRequest;
+import com.sapo.edu.payload.crudrequest.CategoryRequest;
 import com.sapo.edu.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +21,7 @@ public class CategoryRequestMapper {
         category.setCode(code);
         category.setName(categoryRequest.getName());
         category.setDescription(categoryRequest.getDescription());
+
         return category;
     }
 }

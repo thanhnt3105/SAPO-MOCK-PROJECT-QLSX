@@ -18,5 +18,6 @@ public interface BaseController<T> {
 
     ResponseEntity<?> delete(@PathVariable Long id);
 
-    ResponseEntity<?> all(@RequestParam(defaultValue = "0", required = false) int page, @RequestParam(defaultValue = "3", required = false) int size);
+    ResponseEntity<?> all(@RequestParam(defaultValue = "0", required = false) int page,
+                          @RequestParam(defaultValue = "3", required = false) int size);
 }

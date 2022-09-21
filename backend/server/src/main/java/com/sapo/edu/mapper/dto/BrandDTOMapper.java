@@ -19,6 +19,8 @@ public class BrandDTOMapper {
     }
 
     public List<BrandDTO> toBrandDTOs(List<Brand> brands) {
-        return brands.stream().map(this::toBrandDTO).collect(Collectors.toList());
+        return brands.stream()
+                .map(this::toBrandDTO)
+                .collect(Collectors.toList());
     }
 }

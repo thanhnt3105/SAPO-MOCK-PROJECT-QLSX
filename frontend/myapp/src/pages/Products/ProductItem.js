@@ -1,13 +1,12 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import currencyFormat from "../../utils/currencyFormat";
 
 const ProductItem = (props) => {
-  console.log(props);
-  console.log(1);
   const { index, item, selected, callbackClickCheckbox } = props;
   const navigate = useNavigate();
-  const handleNavigateToDetailPage = (event) => {
+  const handleNavigateToDetailPage = () => {
     navigate(`/manage/products/${item.id}`);
   };
 
@@ -30,12 +29,24 @@ const ProductItem = (props) => {
           }}
         />
       </TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{index}</TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{item.code}</TableCell>
-      <TableCell align='left' onClick={handleNavigateToDetailPage}>{item.name}</TableCell>
-      <TableCell align='center' onClick={handleNavigateToDetailPage}>{item.category}</TableCell>
-      <TableCell align='center'onClick={handleNavigateToDetailPage}>{item.price}</TableCell>
-      <TableCell align='center'onClick={handleNavigateToDetailPage}>{item.quantity}</TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {index}
+      </TableCell>
+      <TableCell align='center' onClick={handleNavigateToDetailPage}>
+        {item.code}
+      </TableCell>
+      <TableCell align='left' onClick={handleNavigateToDetailPage}>
+        {item.name}
+      </TableCell>
+      <TableCell align='left' onClick={handleNavigateToDetailPage}>
+        {item.category.name}
+      </TableCell>
+      <TableCell align='right' onClick={handleNavigateToDetailPage}>
+        {currencyFormat(item.price)}
+      </TableCell>
+      <TableCell align='right' onClick={handleNavigateToDetailPage}>
+        {item.quantity}
+      </TableCell>
     </TableRow>
   );
 };

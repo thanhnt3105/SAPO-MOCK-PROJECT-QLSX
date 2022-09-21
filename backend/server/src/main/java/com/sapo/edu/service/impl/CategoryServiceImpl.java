@@ -14,6 +14,7 @@ import java.util.Map;
 
 @Service
 public class CategoryServiceImpl extends BaseServiceImpl<Category> implements CategoryService {
+
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -30,14 +31,16 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
         // this field cannot update
         newEntity.setId(oldEntity.getId());
         newEntity.setCode(oldEntity.getCode());
+
         return super.updateById(id, newEntity);
     }
 
     @Override
     public Map<String, Object> findAllPaging(int page, int size) {
-        Map<String, Object> response = super.findAllPaging(page, size);
+        Map<String, Object> response =  super.findAllPaging(page, size);
         List<Category> categories = (List<Category>) response.get("listOfItems");
         response.put("listOfItems", dtoMapper.toCategoryDTOs(categories));
+
         return response;
     }
 }

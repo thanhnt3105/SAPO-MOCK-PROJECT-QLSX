@@ -12,13 +12,16 @@ import org.springframework.stereotype.Component;
 public class TicketProductRequestMapper {
     @Autowired
     private ProductRepository productRepository;
-
     public TicketProduct toTicketProduct(TicketProductRequest request) {
         TicketProduct ticketProduct = new TicketProduct();
-        Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new EntityNotFoundException(Product.class, "productId", request.getProductId().toString()));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new EntityNotFoundException(Product.class, "productId", request.getProductId().toString()));
+
         ticketProduct.setProduct(product);
         ticketProduct.setQuantity(request.getQuantity());
         ticketProduct.setPrice(product.getPrice());
+        // incomplete TicketProduct: setId(TicketProductId) and setTicket (because don't have new Ticket yet)
+
         return ticketProduct;
     }
 }

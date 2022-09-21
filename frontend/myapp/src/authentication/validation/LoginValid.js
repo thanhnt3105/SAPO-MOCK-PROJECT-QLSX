@@ -8,8 +8,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Stack,
-  Typography,
+  Stack
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React, { useState } from "react";
@@ -18,11 +17,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../redux/actions/actionAuth";
 import { authService } from "../../services/authService";
+import { selectRole } from "../../utils/selectRole";
 
 const LoginValid = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loginFail, setLoginFail] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -44,12 +45,15 @@ const LoginValid = () => {
       .then(function (response) {
         dispatch(login(response.data));
         localStorage.setItem("user", JSON.stringify(response.data));
-      })
-      .then(function () {
-        navigate("/");
+        if (selectRole(response.data.roles) === "Quản Lý") {
+          navigate("/");
+        } else {
+          navigate("/manage/tickets");
+        }
       })
       .catch(function (error) {
         console.log(error);
+        setLoginFail(true);
       });
   };
 
@@ -79,8 +83,8 @@ const LoginValid = () => {
             {...register("password", {
               required: "Yêu cầu nhập mật khẩu",
               minLength: {
-                value: 6,
-                message: "Mật khẩu tối thiểu 6 ký tự",
+                value: 4,
+                message: "Mật khẩu tối thiểu 4 ký tự",
               },
             })}
             endAdornment={
@@ -111,16 +115,19 @@ const LoginValid = () => {
         <Stack
           direction='row'
           alignItems='center'
-          justifyContent='flex-end'
+          justifyContent='flex-start'
           spacing={1}
         >
-          <Typography
+          {loginFail && (
+            <FormHelperText error>Sai tài khoản hoặc mật khẩu</FormHelperText>
+          )}
+          {/* <Typography
             variant='body1'
             color='primary'
             sx={{ textDecoration: "none", cursor: "pointer" }}
           >
             Quên mật khẩu?
-          </Typography>
+          </Typography> */}
         </Stack>
         {errors.submit && (
           <Box sx={{ mt: 3 }}>
@@ -134,7 +141,7 @@ const LoginValid = () => {
             size='large'
             type='submit'
             variant='contained'
-            color='secondary'
+            color='primary'
           >
             Đăng Nhập
           </Button>

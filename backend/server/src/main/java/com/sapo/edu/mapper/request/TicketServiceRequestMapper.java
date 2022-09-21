@@ -12,12 +12,15 @@ import org.springframework.stereotype.Component;
 public class TicketServiceRequestMapper {
     @Autowired
     private ServiceRepository serviceRepository;
-
     public TicketService toTicketService(TicketServiceRequest request) {
         TicketService ticketService = new TicketService();
-        Service service = serviceRepository.findById(request.getServiceId()).orElseThrow(() -> new EntityNotFoundException(Service.class, "serviceId", request.getServiceId().toString()));
+        Service service = serviceRepository.findById(request.getServiceId())
+                        .orElseThrow(() -> new EntityNotFoundException(Service.class, "serviceId", request.getServiceId().toString()));
+
         ticketService.setService(service);
         ticketService.setPrice(service.getPrice());
+        // incomplete TicketService: setId(TicketServiceId) and setTicket (because don't have new Ticket yet)
+
         return ticketService;
     }
 }

@@ -1,6 +1,6 @@
 package com.sapo.edu.controller;
 
-import com.sapo.edu.payload.request.LoginRequest;
+import com.sapo.edu.payload.crudrequest.LoginRequest;
 import com.sapo.edu.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,10 @@ public class AuthController {
     @Autowired
     UserService userService;
 
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
         return ResponseEntity.ok(userService.login(loginRequest.getUsername(), loginRequest.getPassword()));
     }
 

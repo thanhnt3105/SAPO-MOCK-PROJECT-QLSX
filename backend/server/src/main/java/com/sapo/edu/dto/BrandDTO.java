@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.ALWAYS)
+//@JsonInclude(value = JsonInclude.Include.NON_NULL) // skip property that null in returned json object
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class BrandDTO extends BaseDTO {
     private String brandName;
 }

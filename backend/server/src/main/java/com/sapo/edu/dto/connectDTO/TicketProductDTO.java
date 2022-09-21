@@ -13,11 +13,13 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.ALWAYS)
+//@JsonInclude(value = JsonInclude.Include.NON_NULL)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class TicketProductDTO {
     private TicketProductId id;
     private ProductDTO product;
+//    private String stockPrice;
     private BigDecimal stockPrice;
     private Integer quantity;
 }

@@ -16,6 +16,7 @@ public class TicketServiceId implements Serializable {
     private static final long serialVersionUID = -6262472335360912021L;
     @Column(name = "ticket_id", nullable = false)
     private Long ticketId;
+
     @Column(name = "service_id", nullable = false)
     private Long serviceId;
 
@@ -37,16 +38,16 @@ public class TicketServiceId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
-            return false;
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         TicketServiceId entity = (TicketServiceId) o;
-        return Objects.equals(this.serviceId, entity.serviceId) && Objects.equals(this.ticketId, entity.ticketId);
+        return Objects.equals(this.serviceId, entity.serviceId) &&
+                Objects.equals(this.ticketId, entity.ticketId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(serviceId, ticketId);
     }
+
 }
